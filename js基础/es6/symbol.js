@@ -1,7 +1,7 @@
 // 防止属性名的冲突
-// 原始数据类型Symbol
+// 原始数据类型Symbol,表示独一无二的值
 let s = Symbol();
-console.log(typeof s);
+console.log(typeof s);//symbol
 
 // let s1 = Symbol('foo');
 // let s2 = Symbol('bar');
@@ -14,8 +14,8 @@ const obj4 = {
       return 'abc';
     }
 };
-const sym = Symbol(obj4);
-console.log(sym);
+const sym = Symbol(obj4);//将obj4转成Symbol会自动调用toString()方法
+console.log(sym);//Symbol(abc)
 
 // 没有参数的情况
 let s1 = Symbol();
@@ -33,9 +33,34 @@ console.log(sym1.description);
 
 // 作为属性名的 Symbol
 let mySymbol = Symbol();
-let a = {};
-a[mySymbol] = 'Hello!';
-console.log(a[mySymbol]);
+// 第一种写法
+let a1 = {};
+a1[mySymbol] = 'Hello!';
+// 第二种写法:在对象的内部，使用 Symbol 值定义属性时，Symbol值必须放在方括号之中
+// 如果mySymbol不放在方括号中，该属性的键名就是字符串'mySymbol'，而不是mySymbol所代表的那个Symbol值
+let a2 = {
+  [mySymbol]: 'Hello!'
+};
+// 第三种写法
+let a3 = {};
+Object.defineProperty(a3, mySymbol, { value: 'Hello!' });
+let a4 = {};
+a4.mySymbol = 'Hello!';//这里a4的属性是'mySymbol'
+console.log(a1[mySymbol]);
+console.log(a2[mySymbol]);
+console.log(a3[mySymbol]);
+console.log(a4[mySymbol]);//undefined
+console.log(a4['mySymbol']);//"Hello!"
+
+const log = {};
+log.levels = {
+  DEBUG: Symbol('debug'),
+  INFO: Symbol('info'),
+  WARN: Symbol('warn')
+};
+console.log(log.levels.DEBUG, 'debug message');
+console.log(log.levels.INFO, 'info message');
+
 
 // 实例：消除魔术字符串,使用Symbol代替魔术字符串
 
