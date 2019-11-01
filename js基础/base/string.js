@@ -63,5 +63,78 @@ console.log((function () { /*
       * atob和btoa不能编码Unicode字符,所以先使用encodeURIComponent,decodeURIComponent编解码在base64编解码
       */
      console.log(encodeURIComponent('你好'));
-     console.log(btoa('Hello World')); // "SGVsbG8gV29ybGQh"
-     console.log(atob('SGVsbG8gV29ybGQh')) // "Hello World!"
+   //   console.log(btoa('Hello World')); // "SGVsbG8gV29ybGQh"
+   //   console.log(atob('SGVsbG8gV29ybGQh')) // "Hello World!"
+
+{
+   var a = 1;
+}
+console.log(a);
+
+if (true) {
+   var b = 2;
+}
+console.log(b);
+console.log(typeof NaN);
+
+eval('var a = 1;');
+console.log(a);
+
+function args() { return arguments }
+var arrayLike = args('a', 'b');
+var arr = Array.prototype.slice.call(arrayLike);
+arr.push(1);
+console.log(arr);
+var array = [1,2,3];
+var aa = array.slice(0,1);
+console.log(aa);
+
+var fn = function () {console.log('fn');};
+var obj = Object(fn); // 返回原函数
+obj();
+var obj = new Object();
+console.log(1+obj);
+
+console.log(Object.prototype.toString.call('abc'));
+
+function add(a, b) {
+   return a + b;
+ }
+ add.call(this, 1, 2) // 3
+
+ var counter = {
+   count: 0,
+   inc: function () {
+     this.count++;
+   }
+ };
+ counter.inc.call(counter);
+ console.log(counter.count);
+
+ var func = counter.inc.bind(counter);
+ func();
+ console.log(counter.count);
+
+var sli = [1, 2, 3];
+console.log(sli.slice(0,1));
+console.log(Array.prototype.slice.call(sli,0,1));
+// 以上方法相当于sli对象调用Array.prototype.slice方法,改写成
+// Array.prototype.slice方法绑定到sli对象
+var s = Array.prototype.slice.bind(sli);
+console.log(s(0,1));
+
+console.log(Function.prototype.call.call(Array.prototype.slice,[1, 2, 3], 0, 1));;
+// 相当于Array.prototype.slice对象调用Function.prototype.call这个方法,改写成
+// Function.prototype.call方法绑定到Array.prototype.slice对象
+var bbbb = Function.prototype.call.bind(Array.prototype.slice);
+console.log(bbbb([1, 2, 3], 0, 1));//[1, 2, 3].slice(0,1)
+
+function f() {
+   console.log(this.v);
+}
+var o = { v: 123 };
+// Function.prototype.call方法绑定到Function.prototype.bind对象
+Function.prototype.call.call(Function.prototype.bind,f,o)();
+var aaa = Function.prototype.call.bind(Function.prototype.bind);
+aaa(f, o)();//f.bind(o)
+
